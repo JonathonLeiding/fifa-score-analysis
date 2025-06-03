@@ -106,6 +106,6 @@ def scrape_and_save(stat_type: str, start: int, end: int, db_path: str):
 
 
 if __name__ == "__main__":
-    DB_PATH = "../data/fifa_player_combined_stats.db"
+    DB_PATH = "../data/fifa_players.db"
     scrape_and_save("goals", 2014, 2022, DB_PATH)
     scrape_and_save("assists", 2014, 2022, DB_PATH)
