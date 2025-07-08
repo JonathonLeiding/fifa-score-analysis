@@ -67,7 +67,7 @@ This project involved:
 
 I'm an independent ML practitioner exploring data-driven storytelling in sports, games, and real-world outcomes. This project represents my ability to work end-to-end: from unstructured data to predictive modeling.
 
-📬 Feel free to connect with me on [LinkedIn](https://linkedin.com) or explore more on [GitHub](https://github.com/your-profile).
+📬 Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/jonathon-leiding/) or explore more on [GitHub](https://github.com/JonathonLeiding).
 
 ---
 
