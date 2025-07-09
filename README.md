@@ -1,85 +1,85 @@
 # fifa-score-analysis
 
-# 🏟 Predicting Premier League Player Performance from FIFA Ratings
+# ⚽ Predicting Premier League Player Performance from FIFA Data
 
-This project builds a neural network model to predict **goals and assists** for Premier League players using **FIFA player ratings** combined with **real-world performance stats**.
-
-It covers everything from **web scraping**, **SQL joins**, and **data cleaning** to **feature engineering** and **deep learning with PyTorch** — done entirely solo.
+This project builds a deep learning model to predict **goals and assists** for Premier League players based on their **FIFA attributes** and real-world performance data. The project integrates multiple data sources, extensive preprocessing, and is designed for potential deployment.
 
 ---
 
-## 🔍 Overview
+## 📦 Data Sources
 
-- 🎮 Source Data: [FIFA 15–23 player ratings](https://huggingface.co/datasets/jsulz/FIFA23) (5.6GB)
-- 📈 Target Data: Goals and assists scraped from [Transfermarkt.com](https://www.transfermarkt.com)
-- ⚽ League Filter: Premier League players only (`league_id == 13`)
-- 🧼 Data Volume: Over 5,000 rows of player-season data after filtering and cleaning
-
----
-
-## 🛠️ Features & Preprocessing
-
-### ✅ Data Filtering
-- Filtered to **Premier League** only
-- Used only the **first version update per FIFA release** (`fifa_update == 1`)
-- Removed duplicate or incomplete player rows
-
-### 🧠 Feature Engineering
-| Feature Type           | Examples                        | Strategy                                |
-|------------------------|----------------------------------|------------------------------------------|
-| Continuous (skewed)    | `value_eur`, `wage_eur`         | Log-transform + Z-score normalization   |
-| Continuous (regular)   | `age`, `height_cm`, `weight_kg` | Z-score normalization                   |
-| Ordinal Ratings        | `weak_foot`, `skill_moves`, etc.| Left as-is (range 1–5)                  |
-| Categorical (low-card) | `work_rate`, `body_type`        | One-hot encoding                        |
-| Categorical (ID)       | `player_id`, `club_team_id`     | Integer encoding + PyTorch embeddings   |
-| Positional features    | `primary_position`, `club_position` | Mapped and embedded                    |
-| Binary Flags           | `has_multiple_positions`, `preferred_foot` | Direct binary (0/1)          |
+- 🎮 **FIFA 15–23 player dataset** from [Hugging Face](https://huggingface.co/datasets/jsulz/FIFA23) (5.6 GB total)
+- 📊 **Goals and assists** scraped from [Transfermarkt.com](https://www.transfermarkt.com)
+- 🏆 Filtered for **Premier League players** (`league_id == 13`) and **first season updates** (`fifa_update == 1`) to ensure consistency
 
 ---
 
-## 🤖 Model
+## 🔍 Project Goals
 
-The model is a **PyTorch regression neural network** with:
+- Create a dataset of **Premier League player-seasons** with matching FIFA ratings and performance stats
+- Use deep learning (PyTorch) to predict:
+  - `goals`
+  - `assists`
 
-- Two **embedding layers** for player and club IDs
-- One **dense feature vector** (all numerical + one-hot inputs)
-- Several **fully connected layers** with LeakyReLU activations
-- `SmoothL1Loss` for stable regression of `goals` and `assists`
+---
+
+## 🧼 Data Cleaning & Feature Engineering
+
+The preprocessing pipeline combines SQL joins (via Beekeeper Studio) and pandas-based feature engineering in Python. Final outputs are stored in `cleaned_prem_data.csv`.
+
+### ✅ Core Steps
+
+| Step                         | Description                                                                 |
+|------------------------------|-----------------------------------------------------------------------------|
+| **Filtering**                | Removed duplicates, mid-season updates, and non-PL players                  |
+| **Manual Corrections**       | Fixed known incorrect `goals`/`assists` using Transfermarkt verification   |
+| **Derived Features**         | `primary_position`, `has_multiple_positions`, `years_remaining`            |
+| **Monetary Features**        | `value_eur`, `wage_eur` → log-transformed + normalized                     |
+| **Physical Features**        | `age`, `height_cm`, `weight_kg` normalized                                 |
+| **One-Hot Encoded**          | `work_rate`, `body_type` (small cardinality categorical)                   |
+| **Mapped to Int**            | `preferred_foot`: {'Right': 0, 'Left': 1}                                  |
+| **Embedded via Category Codes** | `player_id`, `club_team_id`, `primary_position_mapped`, `club_position_mapped` |
+| **Removed Redundancy**       | Dropped raw strings like `primary_position` in favor of mapped versions    |
+
+---
+
+## 🧠 Modeling Strategy
+
+A neural network will be built using **PyTorch** and trained on the processed data. Features include both structured float inputs and embedded ID/category variables.
+
+### Architecture Highlights:
+
+- **Regression model** predicting integer-valued `goals` and `assists`
+- **Embeddings** for player ID, club ID, and position mappings
+- **SmoothL1Loss** for robust regression
+- **Adam optimizer** with learning rate scheduler
+- **GPU training via Google Colab**
 
 ---
 
 
-## 🧑‍💻 How This Was Built
+---
 
-This project involved:
+## 🚀 Future Plans
 
-- 🕸 Web scraping with `requests` and `BeautifulSoup`
-- 🧪 SQL merging of Transfermarkt and Hugging Face datasets
-- 🔧 Data wrangling in pandas
-- 📊 Feature engineering (log transforms, embeddings, one-hot)
-- 🔥 Neural network training with PyTorch
-
-> This is a solo-built project to showcase full-stack machine learning development on messy real-world data.
+- Refactor modeling into `.py` files for deployment
+- Build a **Streamlit** or **Django** app for interactive predictions
+- Host the trained model and API via **Streamlit Cloud** or **Render**
 
 ---
 
-## 📢 About Me
+## 🎓 What This Demonstrates
 
-I'm an independent ML practitioner exploring data-driven storytelling in sports, games, and real-world outcomes. This project represents my ability to work end-to-end: from unstructured data to predictive modeling.
-
-📬 Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/jonathon-leiding/) or explore more on [GitHub](https://github.com/JonathonLeiding).
-
----
-
-## 🚀 Future Work
-
-- Add player injury or minutes played data for better targets
-- Expand to other leagues or international data
-- Convert to a multi-task model (classification + regression)
-- Deploy a simple interface to input a player and predict output
+- Full-stack ML project: data sourcing → cleaning → modeling
+- Deep understanding of data quality and integrity
+- Manual and automated feature engineering
+- Model-ready design with embeddings and encodings
+- Positioned for future deployment and real-world usability
 
 ---
 
-## 🧾 License
+## 🧑‍💻 About Me
 
-MIT License.
+This is an independent project designed to showcase my data science and machine learning engineering skills — especially in applied settings where structured data meets real-world prediction tasks.
+
+📫 Feel free to reach out on [LinkedIn](https://www.linkedin.com/in/jonathon-leiding/) or explore more on [GitHub](https://github.com/JonathonLeiding).
