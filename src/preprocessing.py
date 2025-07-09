@@ -188,6 +188,7 @@ def encode_ids(df: pd.DataFrame) -> pd.DataFrame:
     """Convert player_id and club_team_id to integer category codes for embeddings."""
     df['player_id'] = df['player_id'].astype('category').cat.codes
     df['club_team_id'] = df['club_team_id'].astype('category').cat.codes
+    df['preferred_foot'] = df['preferred_foot'].map({'Right': 0, 'Left': 1})
     return df
 
 
@@ -200,7 +201,7 @@ def select_columns(df: pd.DataFrame) -> pd.DataFrame:
         'weak_foot', 'skill_moves', 'international_reputation',
         'pace', 'shooting', 'passing', 'dribbling', 'defending', 'physic',
         'attacking_crossing', 'attacking_finishing', 'goals', 'assists',
-        'club_position_mapped', 'primary_position', 'has_multiple_positions',
+        'club_position_mapped', 'has_multiple_positions',
         'primary_position_mapped', 'years_remaining',
         'log_value_eur', 'log_wage_eur',
     ]
